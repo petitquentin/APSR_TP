@@ -8,13 +8,11 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 masterRank = 0
-testRank = 1
-tag_reduce = 0
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--debug', action='store_true',
-                    default=False, help="Enable the detialed training output.")
+                    default=False, help="Enable the detailed training output.")
 parser.add_argument('--n', type=int, default=1000,
                     help='Number of data for the mean.')
 args = parser.parse_args()
@@ -29,7 +27,7 @@ if (rank == masterRank):
         size_data = math.floor(args.n / size)
         if (rank < (args.n % size)):
             size_data += 1
-        data.append(random.sample(range(0, 20 * args.n), args.n))
+        data.append(random.sample(range(0, 20 * args.n), int(args.n / size)))
 
 #Begin Gather/sCatter
 if rank == masterRank:
